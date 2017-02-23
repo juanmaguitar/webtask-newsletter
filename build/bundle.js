@@ -49,11 +49,16 @@ module.exports =
 
 	var wt = __webpack_require__(1);
 	var app = __webpack_require__(2);
-	var RESPONSE = __webpack_require__(7);
+	var RESPONSE = __webpack_require__(5);
 
 	module.exports = wt.fromExpress(app).auth0({
 	  exclude: ['/subscribe'],
 	  loginError: function loginError(error, ctx, req, res, baseUrl) {
+	    console.log(error);
+	    console.log(ctx);
+	    console.log(req);
+	    console.log(res);
+	    console.log(baseUrl);
 	    res.writeHead(401, { 'Content-Type': 'application/json' });
 	    res.end(JSON.stringify(RESPONSE.UNAUTHORIZED));
 	  }
@@ -73,10 +78,12 @@ module.exports =
 
 	var express = __webpack_require__(3);
 	var bodyParser = __webpack_require__(4);
-	var _ = __webpack_require__(5);
-	var Joi = __webpack_require__(6);
 
-	var RESPONSE = __webpack_require__(7);
+	var RESPONSE = __webpack_require__(5);
+
+	var addSubscription = __webpack_require__(6);
+	var getSubscribers = __webpack_require__(8);
+	var rootHandler = __webpack_require__(9);
 
 	var app = express();
 
@@ -86,19 +93,59 @@ module.exports =
 	// parse application/json
 	app.use(bodyParser.json());
 
-	app.get('/subscribers', function (req, res) {
-	  req.webtaskContext.storage.get(function (err, data) {
-	    if (!err) {
-	      res.writeHead(200, { 'Content-Type': 'application/json' });
-	      res.end(JSON.stringify(data));
-	    } else {
-	      res.writeHead(400, { 'Content-Type': 'application/json' });
-	      res.end(JSON.stringify(RESPONSE.ERROR));
-	    }
-	  });
-	});
+	app.get('/subscribers', getSubscribers);
+	app.post('/subscribe', addSubscription);
+	app.post('/', rootHandler);
 
-	app.post('/subscribe', function (req, res) {
+	module.exports = app;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	module.exports = require("express");
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = require("body-parser");
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+	  OK: {
+	    statusCode: 200,
+	    message: "You have successfully subscribed to MY SUPER newsletter!"
+	  },
+	  DUPLICATE: {
+	    status: 400,
+	    message: "You are already subscribed."
+	  },
+	  ERROR: {
+	    statusCode: 400,
+	    message: "Something went wrong. Please try again."
+	  },
+	  UNAUTHORIZED: {
+	    statusCode: 401,
+	    message: "You must be logged in to access this resource."
+	  }
+	};
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var RESPONSE = __webpack_require__(5);
+	var _ = __webpack_require__(7);
+
+	function addSubscription(req, res) {
 
 	  var email = req.body.email;
 
@@ -133,9 +180,48 @@ module.exports =
 	    res.writeHead(200, { 'Content-Type': 'application/json' });
 	    res.end(JSON.stringify(RESPONSE.ERROR));
 	  }
-	});
+	}
 
-	app.post('/', function (req, res) {
+	module.exports = addSubscription;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	module.exports = require("lodash");
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var RESPONSE = __webpack_require__(5);
+
+	function getSubscribers(req, res) {
+	  req.webtaskContext.storage.get(function (err, data) {
+	    if (!err) {
+	      res.writeHead(200, { 'Content-Type': 'application/json' });
+	      res.end(JSON.stringify(data));
+	    } else {
+	      console.log(err);
+	      res.writeHead(400, { 'Content-Type': 'application/json' });
+	      res.end(JSON.stringify(RESPONSE.ERROR));
+	    }
+	  });
+	}
+
+	module.exports = getSubscribers;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var RESPONSE = __webpack_require__(5);
+
+	function rootHandler(req, res) {
 	  var body = req.webtaskContext.body;
 	  if (body.message) {
 	    client.sendMessage({
@@ -152,58 +238,9 @@ module.exports =
 	  } else {
 	    res.end(JSON.stringify(RESPONSE.ERROR));
 	  }
-	});
+	}
 
-	module.exports = app;
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	module.exports = require("express");
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-	module.exports = require("body-parser");
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	module.exports = require("lodash");
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	module.exports = require("joi");
-
-/***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	module.exports = {
-	  OK: {
-	    statusCode: 200,
-	    message: "You have successfully subscribed to MY SUPER newsletter!"
-	  },
-	  DUPLICATE: {
-	    status: 400,
-	    message: "You are already subscribed."
-	  },
-	  ERROR: {
-	    statusCode: 400,
-	    message: "Something went wrong. Please try again."
-	  },
-	  UNAUTHORIZED: {
-	    statusCode: 401,
-	    message: "You must be logged in to access this resource."
-	  }
-	};
+	module.exports = rootHandler;
 
 /***/ }
 /******/ ]);

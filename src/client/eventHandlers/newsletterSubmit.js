@@ -3,10 +3,10 @@ function newsletterSubmit(e){
     type : 'POST',
     url : 'https://wt-76fcf2ae5936171bf52221b4075c11a7-0.run.webtask.io/newsletter/subscribe?webtask_no_cache=1',
     data : { email : $('#email').val() },
-    dataType: 'json',
-    headers : {
-      Authorization : 'Bearer ' + localStorage.getItem('token')
-    }
+    dataType: 'json'
+    // headers : {
+    //   Authorization : 'Bearer ' + localStorage.getItem('token')
+    // }
   }).done(function(data) {
     if(data.statusCode == 200){
       $('#newsletter').hide();

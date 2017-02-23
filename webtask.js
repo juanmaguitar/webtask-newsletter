@@ -7,7 +7,12 @@ module.exports = wt.fromExpress(app).auth0({
     '/subscribe'
   ],
   loginError: function (error, ctx, req, res, baseUrl) {
-        res.writeHead(401, { 'Content-Type': 'application/json'})
-        res.end(JSON.stringify(RESPONSE.UNAUTHORIZED))
+      console.log(error)
+      console.log(ctx)
+      console.log(req)
+      console.log(res)
+      console.log(baseUrl)
+      res.writeHead(401, { 'Content-Type': 'application/json'})
+      res.end(JSON.stringify(RESPONSE.UNAUTHORIZED))
     }
 });
