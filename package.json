@@ -1,0 +1,28 @@
+{
+  "name": "newsletter",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "watch:webtask": "wt-bundle --watch --output ./build/bundle.js webtask.js",
+    "bundle:webtask": "wt-bundle webtask.js --output ./build/bundle.js",
+    "bundle:client": "browserify src/client > public/assets/app.js",
+    "deploy-webtask": "npm run bundle:webtask && wt update newsletter ./build/bundle.js",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "joi": "^7.3.0",
+    "lodash": "^4.17.4",
+    "webtask-tools": "^3.2.0"
+  },
+  "devDependencies": {
+    "browserify": "^14.1.0"
+  },
+  "standard": {
+    "globals": [ "$", "Auth0Lock", "localStorage" ]
+  }
+}
