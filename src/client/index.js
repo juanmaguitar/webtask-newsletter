@@ -1,7 +1,15 @@
+const config = require('./auth0-variables')
+
 window.logout = require('./auth/logout')
 window.login = require('./auth/login')
 
-window.lock = new Auth0Lock('6gthvmcI4Ke8uYUmpsfIpZTEzJbGsKRC', 'juanmaguitar.eu.auth0.com')
+window.lock = new Auth0Lock(config.AUTH0_CLIENT_ID, config.AUTH0_DOMAIN, {
+    auth: {
+      params: {
+        scope: 'openid email'
+      }
+    }
+  });
 
 $(document).ready(function () {
   require('./auth/updateAuthenticationStatus')()

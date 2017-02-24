@@ -29,6 +29,8 @@ wt create webtasks/newsletter.js \
 ### Test
 
 ```
-curl --data "email=test@demo.com" -H "Authorization: Bearer <%TOKEN%>" "Content-Type: application/json" -X "POST" https://wt-76fcf2ae5936171bf52221b4075c11a7-0.run.webtask.io/newsletter/subscribe?webtask_no_cache=1
+curl --data "email=test@demo.com" -H "Content-Type: application/json" -X "POST" https://wt-76fcf2ae5936171bf52221b4075c11a7-0.run.webtask.io/newsletter/subscribe?webtask_no_cache=1
+
+curl -X "GET" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2p1YW5tYWd1aXRhci5ldS5hdXRoMC5jb20vIiwic3ViIjoidHdpdHRlcnw2MTQ4MTg2NSIsImF1ZCI6IjZndGh2bWNJNEtlOHVZVW1wc2ZJcFpURXpKYkdzS1JDIiwiZXhwIjoxNDg3OTIzNDkwLCJpYXQiOjE0ODc4ODc0OTB9.7QTSQhdu4lJ3yXqTKrcxtHTTerEHRvMASrb9TdXPb0s"  https://wt-76fcf2ae5936171bf52221b4075c11a7-0.run.webtask.io/newsletter/subscribers?webtask_no_cache=1
 ```
 

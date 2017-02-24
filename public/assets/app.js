@@ -2,10 +2,11 @@
 function loadAdmin () {
   if (window.location.pathname === '/admin/') {
     if (localStorage.getItem('token')) {
-      const type = 'GET'
-      const url = 'https://webtask.it.auth0.com/api/run/wt-76fcf2ae5936171bf52221b4075c11a7-0/newsletter/subscribers?webtask_no_cache=1'
-      const headers = { Authorization: 'Bearer ' + localStorage.getItem('token') }
-      $.ajax({ type, url, headers })
+      //const type = 'GET'
+      console.log('admin...')
+      const url = `https://webtask.it.auth0.com/api/run/wt-76fcf2ae5936171bf52221b4075c11a7-0/newsletter/subscribers?webtask_no_cache=1&key=${localStorage.getItem('token')}`
+      //const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      $.ajax({ url })
         .done(data => {
           const html = data.map(mail => `<h4>${mail}</h4>`).join('')
           $('#subscribers').html(html)
@@ -63,6 +64,13 @@ function updateAuthenticationStatus () {
 module.exports = updateAuthenticationStatus
 
 },{}],5:[function(require,module,exports){
+module.exports = {
+  AUTH0_CLIENT_ID: '6gthvmcI4Ke8uYUmpsfIpZTEzJbGsKRC',
+  AUTH0_DOMAIN: 'juanmaguitar.eu.auth0.com',
+  AUTH0_CALLBACK_URL: location.href
+}
+
+},{}],6:[function(require,module,exports){
 function newsletterSubmit(e){
   $.ajax({
     type : 'POST',
@@ -85,7 +93,7 @@ function newsletterSubmit(e){
 }
 
 module.exports = newsletterSubmit
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 const getHtmlMsgOk = ({ message }) => `<div class="alert alert-success">${message}</div>`
 const getHtmlMsgKo = ({ message }) => `<div class="alert alert-danger">${message}</div>`
 const getHtmlMsgNotLogged = () => '<div class="alert alert-danger">You must be logged in to submit tips. :(</div>'
@@ -120,11 +128,19 @@ function tipSubmit (e) {
 }
 
 module.exports = tipSubmit
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
+const config = require('./auth0-variables')
+
 window.logout = require('./auth/logout')
 window.login = require('./auth/login')
 
-window.lock = new Auth0Lock('6gthvmcI4Ke8uYUmpsfIpZTEzJbGsKRC', 'juanmaguitar.eu.auth0.com')
+window.lock = new Auth0Lock(config.AUTH0_CLIENT_ID, config.AUTH0_DOMAIN, {
+    auth: {
+      params: {
+        scope: 'openid email'
+      }
+    }
+  });
 
 $(document).ready(function () {
   require('./auth/updateAuthenticationStatus')()
@@ -134,4 +150,4 @@ $(document).ready(function () {
 $('#newsletter').submit(require('./eventHandlers/newsletterSubmit.js'))
 $('#tip').submit(require('./eventHandlers/tipSubmit.js'))
 
-},{"./admin/loadAdmin":1,"./auth/login":2,"./auth/logout":3,"./auth/updateAuthenticationStatus":4,"./eventHandlers/newsletterSubmit.js":5,"./eventHandlers/tipSubmit.js":6}]},{},[7]);
+},{"./admin/loadAdmin":1,"./auth/login":2,"./auth/logout":3,"./auth/updateAuthenticationStatus":4,"./auth0-variables":5,"./eventHandlers/newsletterSubmit.js":6,"./eventHandlers/tipSubmit.js":7}]},{},[8]);
