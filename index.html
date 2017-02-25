@@ -11,7 +11,7 @@
       #login, #user { cursor:pointer; }
     </style>
     <script>
-      if ( window.location.pathname.includes('github.io') ) {
+      if ( window.location.hostname.includes('github.io') ) {
         const project = window.location.pathname.split( '/' )[0]
         document.getElementsByTagName('base')[0].href = project + '/'
       }
