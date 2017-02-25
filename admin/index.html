@@ -6,6 +6,15 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://cdn.auth0.com/js/lock-9.min.js"></script>
+
+    <script>
+      if ( window.location.hostname.includes('github.io') ) {
+        const project = window.location.pathname.split( '/' )[1]
+        const baseTag = `<base href="/${project}/"/>`
+        document.write(baseTag);
+      }
+    </script>
+
   </head>
   <body>
     <header>
