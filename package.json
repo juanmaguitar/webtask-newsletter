@@ -7,7 +7,7 @@
     "bundle:webtask": "wt-bundle webtask.js --output ./build/newsletter.js",
     "bundle:client": "browserify src/client > public/assets/app.js",
     "deploy:webtask": "npm run bundle:webtask && wt update newsletter ./build/newsletter.js",
-    "deploy:gh-pages": "gh-pages -d public",
+    "deploy:gh-pages": "npm run bundle:client && gh-pages -d public",
     "start": "node server.js"
   },
   "keywords": [],
