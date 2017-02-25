@@ -10,7 +10,7 @@ function loadAdmin () {
           $('#subscribers').html(html)
         })
     } else {
-      window.location = '/'
+      window.location = './'
     }
   }
 }

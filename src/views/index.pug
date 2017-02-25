@@ -1,0 +1,48 @@
+extends layout
+
+block content
+
+  -
+    var stories = [
+      {
+        img: 'https://images.unsplash.com/photo-1425036458755-dc303a604201?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=e12ee8718536181ecd9bf16967e81530',
+        title: 'Serverless Computing Takes Over the World!',
+        description: 'The Serverless Computing trend shows no sings of slowing down. Companies are buring their servers and going serverless...',
+        url: './post/serverless-computing-takes-over-the-world/'
+      },
+      {
+        img: 'https://images.unsplash.com/photo-1454165205744-3b78555e5572?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=ca8c08d17555247f7580691500bb5351',
+        title: 'Function as a Service: The Next Big Thing',
+        description: 'Every decade or so, an idea so powerful comes about that it changes the way we think, work and play. FaaS is that idea...',
+        url: './post/function-as-a-service/'
+      },
+      {
+        img: 'https://images.unsplash.com/photo-1433437642136-9442bd2126a8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=4ef83e14347159f4287aac4b1f2d2c24',
+        title: 'Welcome to Serverless Stories',
+        description: "Our blog is officially live. Find out how we created this blog and the technology behind running it. We think it's pretty great...",
+        url: './post/welcome-to-serverless-stories/'
+      }
+    ]
+
+
+  h1 Top Stories
+  .row
+    each story in stories
+      .col-sm-4
+        .panel.panel-default
+          .panel-body
+            img(src=story.img, style='width: 100%; height: 170px;')
+            h4= story.title
+            p= story.description
+            a(href=story.url) Read Story
+
+  .row
+    .col-sm-12.well
+      form#newsletter
+        .form-group
+          label Subscribe to Our Newsletter!
+          |
+          input#email.form-control(type='email')
+        |
+        button.btn.btn-primary.btn-block(type='submit') Submit
+      #response

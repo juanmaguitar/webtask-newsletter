@@ -5,9 +5,17 @@
   "scripts": {
     "watch:webtask": "wt-bundle --watch --output ./build/newsletter.js webtask.js",
     "bundle:webtask": "wt-bundle webtask.js --output ./build/newsletter.js",
-    "bundle:client": "browserify src/client > public/assets/app.js",
+    "bundle:client": "browserify src/js -o public/app.js",
     "deploy:webtask": "npm run bundle:webtask && wt update newsletter ./build/newsletter.js",
-    "deploy:gh-pages": "npm run bundle:client && gh-pages -d public",
+    "clean:pug": "rm -rf src/views/includes/vars.pug",
+    "clean:layout": "rm -rf public/layout.html && rm -rf public/includes",
+    "pug:local": "echo \"- var baseHref='/'\" > src/views/includes/vars.pug",
+    "pug:gh-pages": "echo \"- var baseHref='/webtask-newsletter/'\" > src/views/includes/vars.pug",
+    "pug:build": "pug src/views --pretty --out public && npm run clean:layout",
+    "pug:build:local": "npm run clean:pug && npm run pug:local && npm run pug:build",
+    "pug:build:gh-pages": "npm run clean:pug && npm run pug:gh-pages && npm run pug:build",
+    "deploy:gh-pages": "npm run pug:build:gh-pages && npm run bundle:client && gh-pages -d public",
+    "dev": "npm run pug:build:local && npm run bundle:client && http-server public",
     "start": "node server.js"
   },
   "keywords": [],
@@ -22,7 +30,8 @@
   },
   "devDependencies": {
     "browserify": "^14.1.0",
-    "gh-pages": "^0.12.0"
+    "gh-pages": "^0.12.0",
+    "http-server": "^0.9.0"
   },
   "standard": {
     "globals": [

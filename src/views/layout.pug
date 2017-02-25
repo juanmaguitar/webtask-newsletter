@@ -1,0 +1,32 @@
+include includes/vars.pug
+
+doctype html
+html
+  head
+    base(href=baseHref ? baseHref : '/')
+    title Serverless Stories
+    link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', rel='stylesheet')
+    script(src='https://code.jquery.com/jquery-2.2.4.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+    script(src='https://cdn.auth0.com/js/lock-9.min.js')
+    style.
+      #login, #user { cursor:pointer; }
+  body
+    header
+      nav.navbar.navbar-default
+        .container-fluid
+          .navbar-header
+            a.navbar-brand(href='./') Serverless Stories
+          .collapse.navbar-collapse
+            ul.nav.navbar-nav
+              li.active
+                a(href='./') Top Stories
+              li
+                a(href='./admin') Admin
+            ul.nav.navbar-nav.navbar-right
+              li#login
+              li#user
+    .container
+      .col-sm-12
+       block content
+    script(src='app.js')
