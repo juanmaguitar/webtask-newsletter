@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script type="text/javascript">
-      document.write("<base href='http://" + document.location.host + "' />");
-    </script>
 
     <title>Serverless Stories</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
@@ -14,6 +11,13 @@
       #login, #user { cursor:pointer; }
     </style>
 
+    <script>
+      if ( window.location.hostname.includes('github.io') ) {
+        const project = window.location.pathname.split( '/' )[1]
+        const baseTag = `<base href='/${project}/"/>`
+        document.write(baseTag);
+      }
+    </script>
   </head>
   <body>
     <header>
