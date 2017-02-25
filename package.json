@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "watch:webtask": "wt-bundle --watch --output ./build/bundle.js webtask.js",
-    "bundle:webtask": "wt-bundle webtask.js --output ./build/bundle.js",
+    "watch:webtask": "wt-bundle --watch --output ./build/newsletter.js webtask.js",
+    "bundle:webtask": "wt-bundle webtask.js --output ./build/newsletter.js",
     "bundle:client": "browserify src/client > public/assets/app.js",
-    "deploy:webtask": "npm run bundle:webtask && wt update newsletter ./build/bundle.js",
+    "deploy:webtask": "npm run bundle:webtask && wt update newsletter ./build/newsletter.js",
     "deploy:gh-pages": "gh-pages -d public",
     "start": "node server.js"
   },
